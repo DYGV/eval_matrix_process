@@ -41,8 +41,8 @@ void multiply(float8* dest, float8* a, float b)
     for (int loop_counter = 0; loop_counter < LOOP_NUM; loop_counter++) {
 #ifdef SERIAL
         // SERIALが定義されているなら1つずつ処理する
-        for (int i = 0; i < ROW; i += 1) {
-            for (int j = 0; j < COL; j += 1) {
+        for (int i = 0; i < ROW; i++) {
+            for (int j = 0; j < COL; j++) {
                 dest[i][j] = a[i][j] * b;
             }
         }
@@ -50,7 +50,7 @@ void multiply(float8* dest, float8* a, float b)
         // SERIALが定義されていないならベクトル化処理を行う
         // bを8つとして、YMMへロード
         __m256 vb = _mm256_broadcast_ss((float*)&b);
-        for (int i = 0; i < ROW; i += 1) {
+        for (int i = 0; i < ROW; i++) {
             // a[i]をYMMへロード
             __m256 va = _mm256_load_ps((float*)&a[i]);
             // va,vbを乗算
